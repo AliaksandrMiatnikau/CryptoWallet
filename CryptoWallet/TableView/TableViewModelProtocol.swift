@@ -10,6 +10,6 @@ protocol TableViewModelProtocol {
     func numberOfRows() -> Int
     func getCrypto(completion: @escaping (_ crypto: Coin) -> ())
     func viewModelForSelectedRow(for indexPath: IndexPath) -> DetailedViewModelProtocol?
-    func filtredData()
+    func sortData()
     func crypto(at index: Int) -> Coin
 }

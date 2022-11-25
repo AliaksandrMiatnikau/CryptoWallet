@@ -26,7 +26,8 @@ class DetailedViewController: UIViewController {
     
     func setupViewModel() {
         guard let viewModelDetail = VM else { return }
-        detailLabel.text = "\(viewModelDetail.nameCrypto) /  \(viewModelDetail.symbolCrypto)\nPrice: \(viewModelDetail.costCrypto) USD\nPrice 24 hours ago:\n \(viewModelDetail.percentChangeUsdLast24Hours) USD"
+       
+        detailLabel.text = "\(viewModelDetail.nameCrypto) / \(viewModelDetail.symbolCrypto)\nPrice: \(NSString(format:"%.5f", viewModelDetail.costCrypto)) USD\nPrice 24 hours ago:\n \(NSString(format:"%.5f", viewModelDetail.priceYesterday)) USD\nChanging 24 hours:\n\(NSString(format:"%.3f", viewModelDetail.changingPersent))%"
     }
 }
 

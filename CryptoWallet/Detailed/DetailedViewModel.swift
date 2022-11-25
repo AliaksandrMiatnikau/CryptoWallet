@@ -21,10 +21,15 @@ final class DetailedViewModel: DetailedViewModelProtocol {
         return symbol
     }
     
-    var percentChangeUsdLast24Hours: Double {
+    var priceYesterday: Double {
         guard let price24Hours = crypto?.data.marketData.dayPercentageChange else { return 0 }
         guard let cost = crypto?.data.marketData.priceUSD else { return 0 }
         return ((cost / 100) * price24Hours) + cost
+    }
+    
+    var changingPersent: Double {
+        guard let symbol = crypto?.data.marketData.dayPercentageChange else { return 0 }
+        return symbol
     }
     
     init(crypto: Coin?) {

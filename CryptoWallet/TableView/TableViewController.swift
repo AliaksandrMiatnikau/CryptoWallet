@@ -17,12 +17,6 @@ class TableViewController: UIViewController {
         return tableView
     }()
     
-    //   private let loadingIndicator: UIActivityIndicatorView = {
-    //        let loader = UIActivityIndicatorView(style: .large)
-    //        loader.startAnimating()
-    //        return loader
-    //    }()
-    
     private var loader: UIActivityIndicatorView = {
         let loader = UIActivityIndicatorView()
         loader.translatesAutoresizingMaskIntoConstraints = false
@@ -47,24 +41,22 @@ class TableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         VM = TableViewModel()
+        setupView()
+        setupTableView()
+        setupLoadingIndicator()
+        
+        self.VM?.getCrypto { [weak self] crypto in
+            self?.loader.stopAnimating()
+            self?.tableView.reloadData()
+        }
+    }
+    
+    private func setupView() {
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Coins"
         navigationItem.leftBarButtonItem = sortButton
         navigationItem.rightBarButtonItem = logoutButton
-        
-        setupTableView()
-        
-        self.VM?.getCrypto { [weak self] crypto in
-            
-            self?.loader.stopAnimating()
-            self?.tableView.reloadData()
-        }
-        
-        self.loader.stopAnimating()
-        
-        
-        
     }
     
     private func setupTableView() {
@@ -108,8 +100,8 @@ class TableViewController: UIViewController {
     }
     
     @objc func didTapSort() {
-        VM?.filtredData()
-        tableView.reloadData()
+        VM?.sortData()
+        self.tableView.reloadData()
         print("sorted")
     }
 }
@@ -119,7 +111,6 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return VM?.numberOfRows() ?? 2
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -127,7 +118,7 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         var content = cell.defaultContentConfiguration()
         content.text = VM?.crypto(at: indexPath.row).data.name ?? "text"
-        content.secondaryText = "\(VM?.crypto(at: indexPath.row).data.marketData.dayPercentageChange ?? 0)"
+        content.secondaryText = "\( VM?.crypto(at: indexPath.row).data.marketData.dayPercentageChange ?? 0.0)"
         cell.contentConfiguration = content
         return cell
     }
