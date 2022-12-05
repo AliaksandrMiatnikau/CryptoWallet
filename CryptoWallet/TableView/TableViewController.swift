@@ -17,26 +17,27 @@ class TableViewController: UIViewController {
         return tableView
     }()
     
-    private var loader: UIActivityIndicatorView = {
+    private lazy var loader: UIActivityIndicatorView = {
         let loader = UIActivityIndicatorView()
         loader.translatesAutoresizingMaskIntoConstraints = false
         loader.hidesWhenStopped = true
+        loader.style = .medium
         loader.startAnimating()
         return loader
     }()
     
-    lazy var logoutButton: UIBarButtonItem = {
+    private lazy var logoutButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "rectangle.portrait.and.arrow.forward"), style: .plain, target: self, action: #selector(didTapLogout))
         button.tintColor = .blue
         return button
     }()
     
-    lazy var sortButton: UIBarButtonItem = {
+   private lazy var sortButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "arrow.up.and.down.text.horizontal"), style: .plain, target: self, action: #selector(didTapSort))
         button.tintColor = .blue
         return button
     }()
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,10 +46,13 @@ class TableViewController: UIViewController {
         setupTableView()
         setupLoadingIndicator()
         
+
         self.VM?.getCrypto { [weak self] crypto in
-            self?.loader.stopAnimating()
-            self?.tableView.reloadData()
-        }
+        
+                self?.loader.stopAnimating()
+                self?.tableView.reloadData()
+            }
+
     }
     
     private func setupView() {
@@ -75,7 +79,6 @@ class TableViewController: UIViewController {
         NSLayoutConstraint.activate([
             loader.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             loader.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-            
         ])
     }
     
@@ -89,6 +92,25 @@ class TableViewController: UIViewController {
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
     }
+    
+    func setColour(forItem: Double?) -> UIColor {
+        if  forItem ?? 0 > 0 {
+            return .systemGreen
+        } else if
+            forItem ?? 0 < 0 {
+            return .systemRed
+        } else {
+            return .systemGray
+        }
+    }
+    
+    func setNumberFormat(forItem: Double?) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        let string = "\(formatter.string(from: forItem as! NSNumber) ?? "0.0")%"
+        return string
+    }
+    
     
     @objc func didTapLogout() {
         self.showAlert(with: "Exit?", and: "") {
@@ -110,15 +132,18 @@ class TableViewController: UIViewController {
 extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return VM?.numberOfRows() ?? 2
+        return VM?.numberOfRows() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         var content = cell.defaultContentConfiguration()
-        content.text = VM?.crypto(at: indexPath.row).data.name ?? "text"
-        content.secondaryText = "\( VM?.crypto(at: indexPath.row).data.marketData.dayPercentageChange ?? 0.0)"
+        let name = VM?.cryptoArrayData(at: indexPath.row).data.name
+        let percent = VM?.cryptoArrayData(at: indexPath.row).data.marketData.dayPercentageChange
+        content.text = name
+        content.secondaryText = setNumberFormat(forItem: percent)
+        content.secondaryTextProperties.color = setColour(forItem: percent)
+        content.image = UIImage(systemName: "c.circle")
         cell.contentConfiguration = content
         return cell
     }

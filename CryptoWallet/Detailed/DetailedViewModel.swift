@@ -22,9 +22,9 @@ final class DetailedViewModel: DetailedViewModelProtocol {
     }
     
     var priceYesterday: Double {
-        guard let price24Hours = crypto?.data.marketData.dayPercentageChange else { return 0 }
-        guard let cost = crypto?.data.marketData.priceUSD else { return 0 }
-        return ((cost / 100) * price24Hours) + cost
+        guard let percent24Hours = crypto?.data.marketData.dayPercentageChange else { return 0 }
+        guard let todayPrice = crypto?.data.marketData.priceUSD else { return 0 }
+        return todayPrice - ((todayPrice / 100) * percent24Hours)
     }
     
     var changingPersent: Double {

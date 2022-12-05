@@ -4,12 +4,12 @@ import UIKit
 
 protocol TableViewModelProtocol {
     
-    var symbolCrypto: String        { get }
-    var costCrypto: Double          { get }
+//    var symbolCrypto: String        { get }
+//    var costCrypto: Double          { get }
     
     func numberOfRows() -> Int
     func getCrypto(completion: @escaping (_ crypto: Coin) -> ())
     func viewModelForSelectedRow(for indexPath: IndexPath) -> DetailedViewModelProtocol?
     func sortData()
-    func crypto(at index: Int) -> Coin
+    func cryptoArrayData(at index: Int) -> Coin
 }
