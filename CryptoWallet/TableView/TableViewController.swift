@@ -49,9 +49,11 @@ class TableViewController: UIViewController {
 
         self.VM?.getCrypto { [weak self] crypto in
         
+                
                 self?.loader.stopAnimating()
                 self?.tableView.reloadData()
-            }
+            
+        }
 
     }
     
@@ -107,7 +109,7 @@ class TableViewController: UIViewController {
     func setNumberFormat(forItem: Double?) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        let string = "\(formatter.string(from: forItem as! NSNumber) ?? "0.0")%"
+        let string = "\(formatter.string(from: forItem! as NSNumber) ?? "0.0")%"
         return string
     }
     
@@ -140,6 +142,12 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         var content = cell.defaultContentConfiguration()
         let name = VM?.cryptoArrayData(at: indexPath.row).data.name
         let percent = VM?.cryptoArrayData(at: indexPath.row).data.marketData.dayPercentageChange
+        let price = (VM?.cryptoArrayData(at: indexPath.row).data.marketData.priceUSD ?? 0.0)
+//        let costLabel = UILabel()
+//        
+//        costLabel.text = setNumberFormat(forItem: price)
+//        costLabel.frame = CGRect(x: cell.frame.width - 100, y: cell.frame.height / 2, width: 100, height: 30)
+//        cell.addSubview(costLabel)
         content.text = name
         content.secondaryText = setNumberFormat(forItem: percent)
         content.secondaryTextProperties.color = setColour(forItem: percent)

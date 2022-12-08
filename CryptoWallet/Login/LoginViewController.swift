@@ -93,7 +93,6 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func signUpButtonTapped() {
-        print("lkj")
         VM?.isAuth(login: loginTextField.text ?? "", password: passwordTextField.text ?? "", completion: { [weak self] result in
             switch result {
             case true:

@@ -16,15 +16,18 @@ final class NetworkManager {
     
     public func fetchData(completion: @escaping (_ crypto: Coin) -> ()) {
         for i in CoinNames.symbols {
+            group.enter()
             guard let url = URL(string: "https://data.messari.io/api/v1/assets/\(i)/metrics") else { return }
             URLSession.shared.dataTask(with: url) { (data, response, error) in
                 guard let data = data, error == nil  else { return }
                 
                 do {
                     let result = try? JSONDecoder().decode(Coin.self, from: data)
+                    self.group.leave()
                     guard let mainData = result else { return }
+                    self.group.notify(queue: .main) {
                     completion(mainData)
-                    print(mainData.data.marketData.priceUSD)
+                    }
                 } catch let error {
                     print("Error serialization JSON", error.localizedDescription)
                 }

@@ -4,7 +4,7 @@ import Foundation
 import UIKit
 
 final class TableViewModel: TableViewModelProtocol {
-  
+    
     
     
     func numberOfRows() -> Int {
@@ -13,22 +13,22 @@ final class TableViewModel: TableViewModelProtocol {
     
     private var networkManager = NetworkManager()
     var crypto: Coin?
-    private var isSelect = false
-    private var filteredData: [Coin] = []
+    var sortingFlag = false
+    var filteredData: [Coin] = []
     var dataaa: [Coin] = []
     
     
-//    var symbolCrypto: String {
-//        guard let name = crypto?.data.name else { return "" }
-//        return name
-//    }
-//
-//    var costCrypto: Double {
-//        guard let priceUsd = crypto?.data.marketData.priceUSD  else  { return 0 }
-//        return priceUsd
-//    }
+    //    var symbolCrypto: String {
+    //        guard let name = crypto?.data.name else { return "" }
+    //        return name
+    //    }
+    //
+    //    var costCrypto: Double {
+    //        guard let priceUsd = crypto?.data.marketData.priceUSD  else  { return 0 }
+    //        return priceUsd
+    //    }
     
-    func getCrypto(completion: @escaping (Coin) -> ()) {
+    func getCrypto(completion: @escaping (Coin?) -> ()) {
 //        let group = DispatchGroup()
 //            group.enter()
             networkManager.fetchData() { [weak self] crypto in
@@ -44,32 +44,37 @@ final class TableViewModel: TableViewModelProtocol {
                 }
                
             }
-     
-//        group.leave()
-//        group.notify(queue: .main) {
-//            print("done")
-//        }
+        
+        
+        //        group.leave()
+        //        group.notify(queue: .main) {
+        //            print("done")
+        //        }
     }
+    
     
     
     func cryptoArrayData(at index: Int) -> Coin {
         return dataaa[index]
     }
- 
+    
     func viewModelForSelectedRow(for indexPath: IndexPath) -> DetailedViewModelProtocol? {
-        let data = dataaa.sorted(by: { $0.data.marketData.priceUSD > $1.data.marketData.priceUSD } )
-        let crypto = isSelect ? filteredData[indexPath.row] : data[indexPath.row]
+        let data = dataaa.sorted(by: { $0.data.marketData.priceUSD  > $1.data.marketData.priceUSD  } )
+        let crypto = sortingFlag ? filteredData[indexPath.row] : data[indexPath.row]
         return DetailedViewModel(crypto: crypto)
     }
     
     func sortData() {
-        isSelect = !isSelect
-//        guard let data = crypto?.data else { return }
-        if isSelect {
-            filteredData = dataaa.sorted(by: { $0.data.marketData.dayPercentageChange ?? 0 < $1.data.marketData.dayPercentageChange ?? 0 })
-            dataaa.sort{ $0.data.marketData.dayPercentageChange ?? 0 < $1.data.marketData.dayPercentageChange ?? 0 }
+        sortingFlag = !sortingFlag
+    
+        //        guard let data = crypto?.data else { return }
+        if sortingFlag {
+            filteredData = dataaa.sorted(by: { $0.data.marketData.dayPercentageChange ?? 0 > $1.data.marketData.dayPercentageChange ?? 0 })
+            dataaa.sort{ $0.data.marketData.dayPercentageChange ?? 0 > $1.data.marketData.dayPercentageChange ?? 0 }
+
+        } else {
+//                       filteredData = dataaa.sorted(by: { $0.data.marketData.dayPercentageChange ?? 0 > $1.data.marketData.dayPercentageChange ?? 0 })
+//                       dataaa.sort{ $0.data.marketData.dayPercentageChange ?? 0 > $1.data.marketData.dayPercentageChange ?? 0 }
         }
-        filteredData = dataaa.sorted(by: { $0.data.marketData.dayPercentageChange ?? 0 > $1.data.marketData.dayPercentageChange ?? 0 })
-        dataaa.sort{ $0.data.marketData.dayPercentageChange ?? 0 > $1.data.marketData.dayPercentageChange ?? 0 }
     }
 }
