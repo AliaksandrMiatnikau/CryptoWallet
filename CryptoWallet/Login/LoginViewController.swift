@@ -4,7 +4,6 @@ import UIKit
 
 final class LoginViewController: UIViewController, UITextFieldDelegate {
     
-    
     var VM: LoginViewModelProtocol?
     
     private let imageView: UIImageView = {
@@ -69,14 +68,14 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
     }
     
-    func setupSubviews() {
+    private func setupSubviews() {
         view.addSubview(imageView)
         view.addSubview(loginTextField)
         view.addSubview(passwordTextField)
         view.addSubview(loginButton)
     }
     
-    func setLayout() {
+    private func setLayout() {
         view.frame = view.bounds
         let size = view.frame.size.width/3
         imageView.frame = CGRect(x: (view.frame.size.width - size)/2, y: 80, width: size, height: size)
@@ -85,7 +84,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         loginButton.frame = CGRect(x: 30, y: passwordTextField.frame.size.height + passwordTextField.frame.origin.y + 10, width: view.frame.size.width-60, height: 52)
     }
     
-    func showAlert() {
+    private func showAlert() {
         let alertController = UIAlertController(title: "Error", message: "Неверные данные", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default)
         alertController.addAction(okAction)

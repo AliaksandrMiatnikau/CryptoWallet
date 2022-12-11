@@ -6,7 +6,6 @@ class DetailedViewController: UIViewController {
     
     var VM: DetailedViewModelProtocol?
     
-    
     private lazy var detailLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 6
@@ -29,18 +28,17 @@ class DetailedViewController: UIViewController {
         view.backgroundColor = .white
         setupContraints()
         setupViewModel()
-        //        VM = DetailedViewModel()
     }
     
-   private func setupViewModel() {
+    private func setupViewModel() {
         guard let viewModelDetail = VM else { return }
-       
+        
         detailLabel.text = "\(viewModelDetail.nameCrypto) / \(viewModelDetail.symbolCrypto)\nPrice: \(NSString(format:"%.5f", viewModelDetail.costCrypto)) USD\nPrice 24 hours ago:\n \(NSString(format:"%.5f", viewModelDetail.priceYesterday)) USD \nChanging 24 hours:"
-       percentLabel.textColor = setColour(forItem: viewModelDetail.changingPersent)
-       percentLabel.text = "\(NSString(format:"%.3f", viewModelDetail.changingPersent))%"
+        percentLabel.textColor = setColour(forItem: viewModelDetail.changingPersent)
+        percentLabel.text = "\(NSString(format:"%.3f", viewModelDetail.changingPersent))%"
     }
     
-    func setColour(forItem: Double?) -> UIColor {
+    private func setColour(forItem: Double?) -> UIColor {
         if  forItem ?? 0 > 0 {
             return .systemGreen
         } else if

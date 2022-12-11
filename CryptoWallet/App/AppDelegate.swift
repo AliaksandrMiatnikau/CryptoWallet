@@ -1,9 +1,3 @@
-//
-//  AppDelegate.swift
-//  CryptoWallet
-//
-//  Created by Aliaksandr Miatnikau on 3.11.22.
-//
 
 import UIKit
 

@@ -32,12 +32,12 @@ class TableViewController: UIViewController {
         return button
     }()
     
-   private lazy var sortButton: UIBarButtonItem = {
+    private lazy var sortButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "arrow.up.and.down.text.horizontal"), style: .plain, target: self, action: #selector(didTapSort))
         button.tintColor = .blue
         return button
     }()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,15 +46,11 @@ class TableViewController: UIViewController {
         setupTableView()
         setupLoadingIndicator()
         
-
-        self.VM?.getCrypto { [weak self] crypto in
         
-                
-                self?.loader.stopAnimating()
-                self?.tableView.reloadData()
-            
+        self.VM?.getCrypto { [weak self] crypto in
+            self?.loader.stopAnimating()
+            self?.tableView.reloadData()
         }
-
     }
     
     private func setupView() {
@@ -63,6 +59,7 @@ class TableViewController: UIViewController {
         title = "Coins"
         navigationItem.leftBarButtonItem = sortButton
         navigationItem.rightBarButtonItem = logoutButton
+        
     }
     
     private func setupTableView() {
@@ -84,7 +81,7 @@ class TableViewController: UIViewController {
         ])
     }
     
-    func showAlert(with title: String, and message: String, completion: @escaping () -> Void = { }) {
+    private func showAlert(with title: String, and message: String, completion: @escaping () -> Void = { }) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
             completion()
@@ -95,7 +92,7 @@ class TableViewController: UIViewController {
         present(alertController, animated: true)
     }
     
-    func setColour(forItem: Double?) -> UIColor {
+    private func setColour(forItem: Double?) -> UIColor {
         if  forItem ?? 0 > 0 {
             return .systemGreen
         } else if
@@ -106,13 +103,12 @@ class TableViewController: UIViewController {
         }
     }
     
-    func setNumberFormat(forItem: Double?) -> String {
+    private func setNumberFormat(forItem: Double?) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         let string = "\(formatter.string(from: forItem! as NSNumber) ?? "0.0")%"
         return string
     }
-    
     
     @objc func didTapLogout() {
         self.showAlert(with: "Exit?", and: "") {
@@ -125,10 +121,12 @@ class TableViewController: UIViewController {
     
     @objc func didTapSort() {
         VM?.sortData()
-        self.tableView.reloadData()
         print("sorted")
+        self.tableView.reloadData()
+        print("reloaded")
     }
 }
+
 
 
 extension TableViewController: UITableViewDelegate, UITableViewDataSource {
@@ -143,11 +141,12 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         let name = VM?.cryptoArrayData(at: indexPath.row).data.name
         let percent = VM?.cryptoArrayData(at: indexPath.row).data.marketData.dayPercentageChange
         let price = (VM?.cryptoArrayData(at: indexPath.row).data.marketData.priceUSD ?? 0.0)
-//        let costLabel = UILabel()
-//        
-//        costLabel.text = setNumberFormat(forItem: price)
-//        costLabel.frame = CGRect(x: cell.frame.width - 100, y: cell.frame.height / 2, width: 100, height: 30)
-//        cell.addSubview(costLabel)
+        //        let costLabel = UILabel()
+        //
+        //        costLabel.text = setNumberFormat(forItem: price)
+        //        costLabel.textAlignment = .right
+        //        costLabel.frame = CGRect(x: cell.frame.width - 10, y: cell.frame.height / 2, width: 100, height: 30)
+        //        cell.addSubview(costLabel)
         content.text = name
         content.secondaryText = setNumberFormat(forItem: percent)
         content.secondaryTextProperties.color = setColour(forItem: percent)
