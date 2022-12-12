@@ -85,7 +85,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func showAlert() {
-        let alertController = UIAlertController(title: "Error", message: "Неверные данные", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Error", message: "Login or password is incorrect", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default)
         alertController.addAction(okAction)
         present(alertController, animated: true)

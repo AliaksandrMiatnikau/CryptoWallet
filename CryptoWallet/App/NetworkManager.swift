@@ -20,6 +20,7 @@ final class NetworkManager {
         case bnb = "bnb"
         case busd = "busd"
         case usdt = "usdt"
+        case matic = "matic"
     }
     
     public func fetchData(completion: @escaping (_ crypto: Coin) -> ()) {

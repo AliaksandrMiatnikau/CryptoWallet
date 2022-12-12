@@ -28,7 +28,6 @@ final class TableViewModel: TableViewModelProtocol {
         }
     }
     
-    
     func cryptoArrayData(at index: Int) -> Coin {
         return dataSource[index]
     }

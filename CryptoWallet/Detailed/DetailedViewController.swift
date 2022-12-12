@@ -8,7 +8,7 @@ class DetailedViewController: UIViewController {
     
     private lazy var detailLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 6
+        label.numberOfLines = 12
         label.textAlignment = .center
         
         return label
@@ -33,7 +33,7 @@ class DetailedViewController: UIViewController {
     private func setupViewModel() {
         guard let viewModelDetail = VM else { return }
         
-        detailLabel.text = "\(viewModelDetail.nameCrypto) / \(viewModelDetail.symbolCrypto)\nPrice: \(NSString(format:"%.5f", viewModelDetail.costCrypto)) USD\nPrice 24 hours ago:\n \(NSString(format:"%.5f", viewModelDetail.priceYesterday)) USD \nChanging 24 hours:"
+        detailLabel.text = "\(viewModelDetail.nameCrypto)\n\(viewModelDetail.symbolCrypto)\n\nPrice:\n\(NSString(format:"%.5f", viewModelDetail.costCrypto)) USD\n\nPrice 24 hours ago:\n \(NSString(format:"%.5f", viewModelDetail.priceYesterday)) USD\n\nChanging 24 hours:"
         percentLabel.textColor = setColour(forItem: viewModelDetail.changingPersent)
         percentLabel.text = "\(NSString(format:"%.3f", viewModelDetail.changingPersent))%"
     }

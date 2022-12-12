@@ -103,10 +103,17 @@ class TableViewController: UIViewController {
         }
     }
     
-    private func setNumberFormat(forItem: Double?) -> String {
+    private func setNumberPercentFormat(forItem: Double?) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         let string = "\(formatter.string(from: forItem! as NSNumber) ?? "0.0")%"
+        return string
+    }
+    
+    private func setNumberPriceFormat(forItem: Double?) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        let string = "\(formatter.string(from: forItem! as NSNumber) ?? "0.0")"
         return string
     }
     
@@ -121,12 +128,9 @@ class TableViewController: UIViewController {
     
     @objc func didTapSort() {
         VM?.sortData()
-        print("sorted")
         self.tableView.reloadData()
-        print("reloaded")
     }
 }
-
 
 
 extension TableViewController: UITableViewDelegate, UITableViewDataSource {
@@ -140,16 +144,13 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         var content = cell.defaultContentConfiguration()
         let name = VM?.cryptoArrayData(at: indexPath.row).data.name
         let percent = VM?.cryptoArrayData(at: indexPath.row).data.marketData.dayPercentageChange
-        let price = (VM?.cryptoArrayData(at: indexPath.row).data.marketData.priceUSD ?? 0.0)
-        //        let costLabel = UILabel()
-        //
-        //        costLabel.text = setNumberFormat(forItem: price)
-        //        costLabel.textAlignment = .right
-        //        costLabel.frame = CGRect(x: cell.frame.width - 10, y: cell.frame.height / 2, width: 100, height: 30)
-        //        cell.addSubview(costLabel)
+        let price = VM?.cryptoArrayData(at: indexPath.row).data.marketData.priceUSD ?? 0.0
         content.text = name
-        content.secondaryText = setNumberFormat(forItem: percent)
+        content.textProperties.font = .systemFont(ofSize: 18)
+        content.secondaryText = "\(setNumberPriceFormat(forItem: price))" + " ( \(setNumberPercentFormat(forItem: percent)))"
         content.secondaryTextProperties.color = setColour(forItem: percent)
+        content.secondaryTextProperties.font = .systemFont(ofSize: 16)
+        content.prefersSideBySideTextAndSecondaryText = true
         content.image = UIImage(systemName: "c.circle")
         cell.contentConfiguration = content
         return cell
