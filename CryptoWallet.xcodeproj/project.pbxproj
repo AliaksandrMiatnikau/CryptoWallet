@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F70647262947CEB700686CF4 /* UIView + Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70647252947CEB700686CF4 /* UIView + Utilities.swift */; };
 		F7C982982926D74600617622 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C982972926D74600617622 /* User.swift */; };
 		F7C9829C2926D92B00617622 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C9829B2926D92B00617622 /* Defaults.swift */; };
 		F7C982A22928FB7400617622 /* LoginViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C982A12928FB7400617622 /* LoginViewModelProtocol.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F70647252947CEB700686CF4 /* UIView + Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView + Utilities.swift"; sourceTree = "<group>"; };
 		F7C982972926D74600617622 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F7C9829B2926D92B00617622 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		F7C982A12928FB7400617622 /* LoginViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModelProtocol.swift; sourceTree = "<group>"; };
@@ -61,6 +63,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F70647242947C5AE00686CF4 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F7C9829B2926D92B00617622 /* Defaults.swift */,
+				F7EB2F3E2914311100640EFD /* NetworkManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F70647272947D77200686CF4 /* Utilites */ = {
+			isa = PBXGroup;
+			children = (
+				F70647252947CEB700686CF4 /* UIView + Utilities.swift */,
+			);
+			path = Utilites;
+			sourceTree = "<group>";
+		};
 		F7C982962926D71F00617622 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -75,8 +94,6 @@
 			children = (
 				F7EB2F2A29142D1C00640EFD /* AppDelegate.swift */,
 				F7EB2F2C29142D1C00640EFD /* SceneDelegate.swift */,
-				F7C9829B2926D92B00617622 /* Defaults.swift */,
-				F7EB2F3E2914311100640EFD /* NetworkManager.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -134,7 +151,9 @@
 				F7C982B1292902BC00617622 /* Login */,
 				F7C982A02928E53600617622 /* TableView */,
 				F7C982A32928FB7C00617622 /* Detailed */,
+				F70647242947C5AE00686CF4 /* Services */,
 				F7C982962926D71F00617622 /* Model */,
+				F70647272947D77200686CF4 /* Utilites */,
 				F7EB2F3029142D1C00640EFD /* Main.storyboard */,
 				F7EB2F3329142D1D00640EFD /* Assets.xcassets */,
 				F7EB2F3529142D1D00640EFD /* LaunchScreen.storyboard */,
@@ -217,6 +236,7 @@
 				F7C982AE2928FCAB00617622 /* DetailedViewModel.swift in Sources */,
 				F7C982A82928FC5C00617622 /* DetailedViewModelProtocol.swift in Sources */,
 				F7C982AC2928FC9A00617622 /* TableViewModel.swift in Sources */,
+				F70647262947CEB700686CF4 /* UIView + Utilities.swift in Sources */,
 				F7EB2F45291D3FA600640EFD /* DetailedViewController.swift in Sources */,
 				F7EB2F412915296500640EFD /* Coin.swift in Sources */,
 				F7EB2F3F2914311100640EFD /* NetworkManager.swift in Sources */,
@@ -375,6 +395,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CryptoWallet/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -403,6 +424,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CryptoWallet/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

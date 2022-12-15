@@ -4,7 +4,11 @@ import UIKit
 
 final class LoginViewController: UIViewController, UITextFieldDelegate {
     
+    //MARK: - Class properties
+    
     var VM: LoginViewModelProtocol?
+    
+    //MARK: - Setup UI elements
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -13,60 +17,60 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         return imageView
     }()
     
-    private let loginTextField: UITextField = {
+    private lazy var loginTextField: UITextField = {
         let field = UITextField()
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .continue
         field.layer.cornerRadius = 12
-        field.layer.borderWidth = 1
-        field.layer.borderColor = UIColor.lightGray.cgColor
-        field.placeholder = "Email Address..."
-        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        field.placeholder = "Login"
+        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         field.leftViewMode = .always
         field.backgroundColor = .white
         return field
     }()
     
-    private let passwordTextField: UITextField = {
+    private lazy var passwordTextField: UITextField = {
         let field = UITextField()
         field.autocapitalizationType = .none
         field.autocorrectionType = .no
         field.returnKeyType = .done
         field.layer.cornerRadius = 12
-        field.layer.borderWidth = 1
-        field.layer.borderColor = UIColor.lightGray.cgColor
         field.placeholder = "Password"
-        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         field.leftViewMode = .always
         field.backgroundColor = .white
         field.isSecureTextEntry = true
         return field
     }()
     
-    private let loginButton: UIButton = {
+    private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Log In", for: .normal)
-        button.backgroundColor = .systemGray
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 12
         button.layer.masksToBounds = true
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 0.5
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return button
     }()
     
+    //MARK: - UIViewControllers events
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.addGradient()
         VM = LoginViewModel()
         setupSubviews()
         setLayout()
         loginTextField.delegate = self
         passwordTextField.delegate = self
     }
+    
+    //MARK: - Class methods
     
     private func setupSubviews() {
         view.addSubview(imageView)
@@ -90,6 +94,7 @@ final class LoginViewController: UIViewController, UITextFieldDelegate {
         alertController.addAction(okAction)
         present(alertController, animated: true)
     }
+    //MARK: - Class objc methods
     
     @objc private func signUpButtonTapped() {
         VM?.isAuth(login: loginTextField.text ?? "", password: passwordTextField.text ?? "", completion: { [weak self] result in

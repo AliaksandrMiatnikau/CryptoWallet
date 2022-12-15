@@ -5,9 +5,6 @@ import UIKit
 
 final class TableViewModel: TableViewModelProtocol {
     
-    func numberOfRows() -> Int {
-        return dataSource.count
-    }
     
     private var networkManager = NetworkManager()
     var crypto: Coin?
@@ -15,16 +12,18 @@ final class TableViewModel: TableViewModelProtocol {
     var dataSource: [Coin] = []
     
     
+    
+    func numberOfRows() -> Int {
+        return dataSource.count
+    }
+    
     func getCrypto(completion: @escaping (Coin?) -> ()) {
         networkManager.fetchData() { [weak self] crypto in
-            DispatchQueue.main.async {
                 guard let self = self else { return }
                 self.crypto = crypto
                 self.dataSource.append(crypto)
                 self.dataSource.sort{$0.data.marketData.priceUSD > $1.data.marketData.priceUSD}
-                print(crypto.data.name)
                 completion(crypto)
-            }
         }
     }
     

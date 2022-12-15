@@ -4,7 +4,7 @@ import Foundation
 
 struct User {
     
-    let login: String = "userok"
-    let password: String = "123456"
+    let login: String = "user"
+    let password: String = "1234"
     
 }

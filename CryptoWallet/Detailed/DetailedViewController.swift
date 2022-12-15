@@ -4,7 +4,11 @@ import UIKit
 
 class DetailedViewController: UIViewController {
     
+    //MARK: - Class properties
+    
     var VM: DetailedViewModelProtocol?
+    
+    //MARK: - Setup UI elements
     
     private lazy var detailLabel: UILabel = {
         let label = UILabel()
@@ -22,6 +26,8 @@ class DetailedViewController: UIViewController {
         return label
     }()
     
+    //MARK: - UIViewControllers events
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +35,7 @@ class DetailedViewController: UIViewController {
         setupContraints()
         setupViewModel()
     }
+    //MARK: - Class methods
     
     private func setupViewModel() {
         guard let viewModelDetail = VM else { return }
@@ -50,6 +57,8 @@ class DetailedViewController: UIViewController {
     }
 }
 
+//MARK: - Setup constraints
+
 extension DetailedViewController {
     private func setupContraints() {
         
@@ -67,5 +76,4 @@ extension DetailedViewController {
             percentLabel.topAnchor.constraint(equalTo: detailLabel.bottomAnchor, constant: 10)
         ])
     }
-    
 }

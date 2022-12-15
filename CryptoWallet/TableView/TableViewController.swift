@@ -1,10 +1,14 @@
 
-
+import Foundation
 import UIKit
 
 class TableViewController: UIViewController {
     
+    //MARK: - Class properties
+    
     var VM: TableViewModelProtocol?
+    
+    //MARK: - Setup UI elements
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -28,16 +32,17 @@ class TableViewController: UIViewController {
     
     private lazy var logoutButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "rectangle.portrait.and.arrow.forward"), style: .plain, target: self, action: #selector(didTapLogout))
-        button.tintColor = .blue
+        button.tintColor = .black
         return button
     }()
     
     private lazy var sortButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: UIImage(systemName: "arrow.up.and.down.text.horizontal"), style: .plain, target: self, action: #selector(didTapSort))
-        button.tintColor = .blue
+        button.tintColor = .black
         return button
     }()
     
+    //MARK: - UIViewControllers events
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,13 +50,15 @@ class TableViewController: UIViewController {
         setupView()
         setupTableView()
         setupLoadingIndicator()
-        
-        
         self.VM?.getCrypto { [weak self] crypto in
+            DispatchQueue.main.async {
             self?.loader.stopAnimating()
             self?.tableView.reloadData()
         }
     }
+}
+    
+    //MARK: - Class methods
     
     private func setupView() {
         view.backgroundColor = .white
@@ -59,7 +66,6 @@ class TableViewController: UIViewController {
         title = "Coins"
         navigationItem.leftBarButtonItem = sortButton
         navigationItem.rightBarButtonItem = logoutButton
-        
     }
     
     private func setupTableView() {
@@ -117,7 +123,9 @@ class TableViewController: UIViewController {
         return string
     }
     
-    @objc func didTapLogout() {
+    //MARK: - Class objc methods
+    
+    @objc private func didTapLogout() {
         self.showAlert(with: "Exit?", and: "") {
             let vc = LoginViewController()
             UIApplication.shared.windows.first?.rootViewController = vc
@@ -126,12 +134,13 @@ class TableViewController: UIViewController {
         }
     }
     
-    @objc func didTapSort() {
+    @objc private func didTapSort() {
         VM?.sortData()
         self.tableView.reloadData()
     }
 }
 
+//MARK: - UI Table View
 
 extension TableViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -147,7 +156,7 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         let price = VM?.cryptoArrayData(at: indexPath.row).data.marketData.priceUSD ?? 0.0
         content.text = name
         content.textProperties.font = .systemFont(ofSize: 18)
-        content.secondaryText = "\(setNumberPriceFormat(forItem: price))" + " ( \(setNumberPercentFormat(forItem: percent)))"
+        content.secondaryText = "\(setNumberPriceFormat(forItem: price))" + " (\(setNumberPercentFormat(forItem: percent)))"
         content.secondaryTextProperties.color = setColour(forItem: percent)
         content.secondaryTextProperties.font = .systemFont(ofSize: 16)
         content.prefersSideBySideTextAndSecondaryText = true

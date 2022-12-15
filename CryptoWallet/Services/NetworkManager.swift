@@ -21,15 +21,18 @@ final class NetworkManager {
         case busd = "busd"
         case usdt = "usdt"
         case matic = "matic"
+        
+        var url: String {
+            return "https://data.messari.io/api/v1/assets/\(self.rawValue)/metrics"
+        }
     }
     
     public func fetchData(completion: @escaping (_ crypto: Coin) -> ()) {
         for i in CoinNames.allCases {
             group.enter()
-            guard let url = URL(string: "https://data.messari.io/api/v1/assets/\(i)/metrics") else { return }
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let url = URL(string: i.url) else { return }
+            URLSession.shared.dataTask(with: url) { (data, _, error) in
                 guard let data = data, error == nil  else { return }
-                
                 do {
                     let result = try? JSONDecoder().decode(Coin.self, from: data)
                     self.group.leave()
